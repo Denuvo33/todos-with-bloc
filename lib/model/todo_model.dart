@@ -1,27 +1,39 @@
 class TodoModel {
-  int? id;
-  String title;
-  bool isCompleted;
+  final String id;
+  final String title;
+  final bool isCompleted;
 
   TodoModel({
-    this.id,
+    required this.id,
     required this.title,
-    this.isCompleted = false,
+    required this.isCompleted,
   });
 
-  Map<String, dynamic> toMap() {
+  factory TodoModel.fromDocument(Map<String, dynamic> doc) {
+    return TodoModel(
+      id: doc['id'],
+      title: doc['title'],
+      isCompleted: doc['isCompleted'],
+    );
+  }
+
+  Map<String, dynamic> toDocument() {
     return {
       'id': id,
       'title': title,
-      'isCompleted': isCompleted ? 1 : 0,
+      'isCompleted': isCompleted,
     };
   }
 
-  factory TodoModel.fromMap(Map<String, dynamic> map) {
+  TodoModel copyWith({
+    String? id,
+    String? title,
+    bool? isCompleted,
+  }) {
     return TodoModel(
-      id: map['id'],
-      title: map['title'],
-      isCompleted: map['isCompleted'] == 1,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }
